@@ -28,8 +28,12 @@ public class MergeSorter {
         int[] right = new int[sizeOfRight];
 
         // Copy data into left and right arrays
-        System.arraycopy(data, start, left, 0, sizeOfLeft);
-        System.arraycopy(data, mid + 1, right, 0, sizeOfRight);
+        for (int i = 0; i < sizeOfLeft; i++) {
+		left[i] = data[start + i]; // be careful here
+	}
+	for (int j = 0; j < sizeOfRight; j++) {
+		right[j] = data[mid + 1 + j]; // be careful
+	}
 
         int i = 0, j = 0;
         int k = start;
