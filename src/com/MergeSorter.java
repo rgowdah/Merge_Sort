@@ -7,38 +7,58 @@ public class MergeSorter {
 	public void sort(int[] data) {
 		mergeSort(data, 0, data.length-1);
 	}	
-	
-	private void mergeSort(int[] data, int start, int end) {
-		if (start < end) {
-			int mid = (int) Math.floor((start+end)/2);
-			mergeSort(data, start, mid);
-			mergeSort(data, mid+1, end);
-			merge(data, start, mid, end);
-		}
-	}
-	
-	private void merge(int[] data, int start, int mid, int end) {
-		int sizeOfLeft = mid-start+1;
-		int sizeOfRight = end - mid;
-		int[] left = new int[sizeOfLeft];
-		int[] right = new int[sizeOfRight];
-		for (int i = 0; i < sizeOfLeft; i++) {
-			left[i] = data[start + i]; // be careful here
-		}
-		for (int j = 0; j < sizeOfRight; j++) {
-			right[j] = data[mid + 1 + j]; // be careful
-		}
-		int i = 0, j = 0;
-		for (int k = start; k <= end; k++) {
-			if ((j >= sizeOfRight) || (i < sizeOfLeft && left[i] <= right[j])) {
-				data[k] = left[i];
-				i++;
-			} else {
-				data[k] = right[j];
-				j++;
-			}
-		}
-	}
+
+	// Merge Sort method
+    private void mergeSort(int[] data, int start, int end) {
+        if (start < end) {
+            int mid = (start + end) / 2;  // No need for Math.floor here
+            mergeSort(data, start, mid);  // Sort left half
+            mergeSort(data, mid + 1, end);  // Sort right half
+            merge(data, start, mid, end);  // Merge the two sorted halves
+        }
+    }
+
+    // Merge method to combine two sorted subarrays
+    private void merge(int[] data, int start, int mid, int end) {
+        int sizeOfLeft = mid - start + 1;
+        int sizeOfRight = end - mid;
+
+        // Temporary arrays
+        int[] left = new int[sizeOfLeft];
+        int[] right = new int[sizeOfRight];
+
+        // Copy data into left and right arrays
+        System.arraycopy(data, start, left, 0, sizeOfLeft);
+        System.arraycopy(data, mid + 1, right, 0, sizeOfRight);
+
+        int i = 0, j = 0;
+        int k = start;
+
+        // Merge back into the original array
+        while (i < sizeOfLeft && j < sizeOfRight) {
+            if (left[i] <= right[j]) {
+                data[k] = left[i];
+                i++;
+            } else {
+                data[k] = right[j];
+                j++;
+            }
+            k++;
+        }
+
+        // Copy any remaining elements from left and right arrays
+        while (i < sizeOfLeft) {
+            data[k] = left[i];
+            i++;
+            k++;
+        }
+
+        while (j < sizeOfRight) {
+            data[k] = right[j];
+            j++;
+            k++;
+        }
+    }
 	
 	public void minimumSum(int[] data){
 		int leftMost = 0; 
